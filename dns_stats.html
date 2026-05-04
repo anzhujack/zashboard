@@ -262,7 +262,7 @@
         const host = params.get('host') || location.hostname;
         const port = params.get('port') || location.port || "9095";
         const secret = params.get('secret') || "";
-        const API_BASE = `${location.protocol}//${host}:${port}/api/dns/stats`;
+        const API_BASE = `${location.protocol}//${host}:${port}/dns/stats`;
         let autoRefreshInterval;
 
         function authHeaders() {
