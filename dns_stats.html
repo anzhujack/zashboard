@@ -258,14 +258,22 @@
     </div>
 
     <script>
-        const API_BASE = '/api/dns/stats';
+        const params = new URLSearchParams(location.search);
+        const host = params.get('host') || location.hostname;
+        const port = params.get('port') || location.port || "9095";
+        const secret = params.get('secret') || "";
+        const API_BASE = `${location.protocol}//${host}:${port}/api/dns/stats`;
         let autoRefreshInterval;
+
+        function authHeaders() {
+            return secret ? { "Authorization": `Bearer ${secret}` } : {};
+        }
 
         async function fetchData() {
             try {
                 const [summaryRes, queriesRes] = await Promise.all([
-                    fetch(`${API_BASE}/summary`),
-                    fetch(`${API_BASE}/queries?limit=50`)
+                    fetch(`${API_BASE}/summary`, { headers: authHeaders() }),
+                    fetch(`${API_BASE}/queries?limit=50`, { headers: authHeaders() })
                 ]);
 
                 if (!summaryRes.ok || !queriesRes.ok) {
@@ -381,7 +389,7 @@
         async function clearStats() {
             if (!confirm('确定要清空所有统计数据吗？')) return;
             try {
-                const res = await fetch(`${API_BASE}/`, { method: 'DELETE' });
+                const res = await fetch(`${API_BASE}/`, { method: 'DELETE', headers: authHeaders() });
                 if (res.ok) {
                     await fetchData();
                     alert('统计数据已清空');
