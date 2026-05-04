@@ -10,6 +10,7 @@
         :key="item"
         :is="cardComponents[item.card]"
       />
+      <DNSStats />
     </div>
   </div>
 </template>
