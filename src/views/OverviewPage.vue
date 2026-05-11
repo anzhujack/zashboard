@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div
     class="h-full overflow-x-hidden overflow-y-auto"
     :style="padding"
@@ -10,12 +10,14 @@
         :key="item"
         :is="cardComponents[item.card]"
       />
+      <DNSStats />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import OverviewCtrl from '@/components/controls/OverviewCtrl.vue'
+import DNSStats from '@/components/DNSStats.vue'
 import ChartsCard from '@/components/overview/ChartsCard.vue'
 import ConnectionHistory from '@/components/overview/ConnectionHistory.vue'
 import NetworkCard from '@/components/overview/NetworkCard.vue'
@@ -44,3 +46,4 @@ const cardComponents: Record<string, Component> = {
   RuleHitCountCard,
 }
 </script>
+
